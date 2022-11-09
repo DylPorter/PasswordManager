@@ -23,7 +23,7 @@ def main():
     while True: 
         try:
             f = Fernet(key)
-            db = open('database.txt')
+            db = open(os.path.join(os.getcwd(), 'database.txt'))
             encrypted = db.read().encode()
             decrypted = decrypted = f.decrypt(encrypted)
             original_message = decrypted.decode()
@@ -78,7 +78,7 @@ def add_to_database(original_message, ascii_chars, unicode_chars, f):
                 new_message = (original_message + "site:" + website + "\nmail:" + user + "\npwd:" + password + "\n\n")
                 encoded = new_message.encode()
                 encrypted = f.encrypt(encoded)
-                file = open('database.txt', 'wb')
+                file = open(os.path.join(os.getcwd(), 'database.txt'), 'wb')
                 file.write(encrypted)
                 file.close()
                 print("Information added to database.")
