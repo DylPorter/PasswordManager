@@ -6,6 +6,8 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.fernet import Fernet
 
+dir_path = os.path.dirname(os.path.realpath(__file__))
+
 def main():
     password_provided = getpass.getpass(prompt=str("Password: "))
     password = password_provided.encode()
@@ -23,7 +25,7 @@ def main():
     while True: 
         try:
             f = Fernet(key)
-            db = open(os.path.join(os.getcwd(), 'database.txt'))
+            db = open(os.path.join(dir_path, 'database.txt'))
             encrypted = db.read().encode()
             decrypted = decrypted = f.decrypt(encrypted)
             original_message = decrypted.decode()
@@ -78,7 +80,7 @@ def add_to_database(original_message, ascii_chars, unicode_chars, f):
                 new_message = (original_message + "site:" + website + "\nmail:" + user + "\npwd:" + password + "\n\n")
                 encoded = new_message.encode()
                 encrypted = f.encrypt(encoded)
-                file = open(os.path.join(os.getcwd(), 'database.txt'), 'wb')
+                file = open(os.path.join(dir_path, 'database.txt'), 'wb')
                 file.write(encrypted)
                 file.close()
                 print("Information added to database.")
